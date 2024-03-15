@@ -7,21 +7,21 @@ import java.util.logging.Logger;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.*;
 
-@Path("/login")
+@Path("/register")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-public class LoginResource {
+public class RegisterResource {
 
     //Logger object
     private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
 
-    public LoginResource() {} //Construtor vaziu
+    public RegisterResource() {} //Construtor vaziu
 
 
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response doLogin(LoginData data){
-        LOG.fine("Attempt to login user: " + data.userName);
+    public Response doRegister(LoginData data){
+        LOG.fine("Attempt to register user: " + data.userName);
         return Response.ok().build();
     }
 }

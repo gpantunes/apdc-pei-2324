@@ -120,6 +120,9 @@
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>${appengine.maven.plugin.version}</version>
+				<configuration>
+					<projectId>lofty-complex-417212</projectId>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
