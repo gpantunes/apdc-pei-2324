@@ -110,6 +110,10 @@
 			<artifactId>appengine-api-1.0-sdk</artifactId>
 			<version>2.0.11</version>
 		</dependency>
+		<dependency><!-- added by me -->
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-datastore</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -117,13 +121,14 @@
 		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
 		<plugins>
 		<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>${appengine.maven.plugin.version}</version>
-				<configuration>
-					<projectId>lofty-complex-417212</projectId>
-				</configuration>
-			</plugin>
+			<groupId>com.google.cloud.tools</groupId>
+			<artifactId>appengine-maven-plugin</artifactId>
+			<version>${appengine.maven.plugin.version}</version>
+			<configuration>
+				<deploy.projectId>projeto-teste-417215</deploy.projectId>
+				<deploy.version>GCLOUD_CONFIG</deploy.version>
+			</configuration>
+		</plugin>
 		</plugins>
 	</build>
 </project>
