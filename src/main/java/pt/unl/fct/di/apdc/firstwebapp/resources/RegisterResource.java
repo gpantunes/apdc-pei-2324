@@ -15,6 +15,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Entity.Builder;
+import pt.unl.fct.di.apdc.firstwebapp.util.RegisterData;
 
 
 @Path("/register")
@@ -31,7 +32,7 @@ public class RegisterResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response doRegister(LoginData data){
+    public Response doRegister(RegisterData data){
         LOG.fine("Attempt to register user: " + data.userName);
 
         Key userKey = datastore.newKeyFactory().setKind("Person").newKey("Carlos");
