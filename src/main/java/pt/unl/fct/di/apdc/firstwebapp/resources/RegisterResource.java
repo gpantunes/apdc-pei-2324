@@ -47,15 +47,15 @@ public class RegisterResource {
     @POST
     @Path("/v1")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response doRegist(RegisterData data) {
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.userName);
+    public Response doRegister(RegisterData data) {
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
         Entity user = Entity.newBuilder(userKey)
                 .set("user_password", DigestUtils.sha512Hex(data.password))//passwords devem sempre ser guardadas de maneira encriptada (hash)
                 .set("user_creation_time", Timestamp.now())
                 .build();
         //convem avaliar se o user ja existe ou não -> essencial
         datastore.put(user);
-        LOG.info("User registered " + data.userName);
+        LOG.info("User registered " + data.username);
 
         return Response.ok().build();
     }
@@ -64,9 +64,9 @@ public class RegisterResource {
     @POST
     @Path("/v2")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response doRegist2(RegisterData data) {
+    public Response doRegister2(RegisterData data) {
 
-        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.userName);
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
 
         if (datastore.get(userKey) != null)
             return Response.status(Status.FORBIDDEN).entity("Username already exists.").build();
@@ -83,7 +83,7 @@ public class RegisterResource {
                     .build();
             //convem avaliar se o user ja existe ou não -> essencial
             datastore.add(user);//devemos usar o add, porque ja faz a avaliação se o user existe ou não
-            LOG.info("User registered " + data.userName);
+            LOG.info("User registered " + data.username);
 
             return Response.ok().build();
         }
