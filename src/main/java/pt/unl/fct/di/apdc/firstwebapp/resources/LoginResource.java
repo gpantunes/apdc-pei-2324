@@ -13,14 +13,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUtils;
+import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.AuthToken;
 import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
-
-//import com.google.cloud.datastore.;
-
 
 
 @Path("/login")
@@ -49,7 +47,14 @@ public class LoginResource {
             String hashedPWD = (String) user.getString("user_password");
 
             if(hashedPWD.equals((DigestUtils.sha512Hex(data.password)))){
-                //user = Entity.newBuilder(user).set("user_login_time", );
+                user = Entity.newBuilder(userKey)
+                        .set("user_name", data.username)
+                        .set("user_password", DigestUtils.sha512Hex(data.password))
+                        .set("user_creation_time", Timestamp.now())
+                        .set("user_email", data.email)
+                        .build();
+
+                datastore.put(user);
 
                 AuthToken at = new AuthToken(data.username);
                 return Response.ok(g.toJson(at)).build();

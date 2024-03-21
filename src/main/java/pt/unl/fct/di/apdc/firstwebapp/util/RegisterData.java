@@ -4,15 +4,21 @@ public class RegisterData {
 
     public String username;
     public String password;
-    public String name;
     public String email;
     public String confirmation;
 
     public RegisterData(){}
 
-    public RegisterData(String username, String password){
+    public RegisterData(String username, String password, String email){
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
+    public boolean validRegistration(){
+        if(username != null && password != null)
+            return true;
+
+        return false;
+    }
 }

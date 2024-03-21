@@ -14,10 +14,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUtils;
 import com.google.cloud.Timestamp;
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
 import pt.unl.fct.di.apdc.firstwebapp.util.AuthToken;
@@ -77,8 +74,8 @@ public class RegisterResource {
         else {
             Entity user = Entity.newBuilder(userKey)
                     .set("user_password", DigestUtils.sha512Hex(data.password))//passwords devem sempre ser guardadas de maneira encriptada (hash)
-                    .set("email", data.email)
-                    .set("name", data.name)
+                    .set("user_email", data.email)
+                    .set("user_name", data.username)
                     .set("user_creation_time", Timestamp.now())
                     .build();
             //convem avaliar se o user ja existe ou não -> essencial
@@ -89,5 +86,44 @@ public class RegisterResource {
         }
 
     }
-}
 
+
+
+
+    @POST
+    @Path("/v3")
+    @Consumes (MediaType.APPLICATION_JSON)
+    public Response doRegistrationV3(RegisterData data) {
+        LOG.fine("Attempt to register user:" + data.username);
+
+        if( ! data.validRegistration()) {
+            return Response.status(Status. BAD_REQUEST).entity("Missing or wrong parameter.").build();
+        }
+
+
+        Transaction txn = datastore.newTransaction();
+        try {
+            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+            Entity user = txn .get(userKey);
+            if( user != null) {
+                txn.rollback();
+                return Response.status(Status.BAD_REQUEST).entity("User already exists.").build(); } else {
+            }
+            user = Entity.newBuilder(userKey)
+                    .set("user_name", data.username)
+                    .set("user_password", DigestUtils.sha512Hex(data.password))
+                    .set("user_creation_time", Timestamp.now())
+                    .set("user_email", data.email)
+                    .build();
+            txn.add(user);
+            LOG.info("User registered" + data.username);
+            txn.commit();
+            return Response.ok("{}").build();
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+}
