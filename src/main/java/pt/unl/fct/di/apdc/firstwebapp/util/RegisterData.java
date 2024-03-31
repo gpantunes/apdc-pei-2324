@@ -3,16 +3,36 @@ package pt.unl.fct.di.apdc.firstwebapp.util;
 public class RegisterData {
 
     public String username;
-    public String password;
+    public String name;
     public String email;
+    public String phoneNumber;
+    public String password;
     public String confirmation;
+    public boolean publicProfile;
+    public String occupation;
+    public String workPlace;
+    public String address;
+    public String postalCode;
+    public int nif;
+    public String role;
+
 
     public RegisterData(){}
 
-    public RegisterData(String username, String password, String email){
+    public RegisterData(String username, String password, String email, String name, String phoneNumber, boolean publicProfile,
+                        String occupation, String workPlace, String address, String postalCode, int nif){
         this.username = username;
         this.password = password;
         this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.publicProfile = publicProfile;
+        this.occupation = occupation;
+        this.workPlace = workPlace;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.nif = nif;
+        this.role = "user";
     }
 
     public boolean validRegistration(){

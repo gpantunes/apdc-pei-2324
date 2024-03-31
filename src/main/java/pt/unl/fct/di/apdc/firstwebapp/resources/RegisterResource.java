@@ -26,7 +26,7 @@ import pt.unl.fct.di.apdc.firstwebapp.util.RegisterData;
 public class RegisterResource {
 
     /*
-     * DataStora
+     * DataStore
      */
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -110,15 +110,24 @@ public class RegisterResource {
                 return Response.status(Status.BAD_REQUEST).entity("User already exists.").build(); } else {
             }
             user = Entity.newBuilder(userKey)
-                    .set("user_name", data.username)
-                    .set("user_password", DigestUtils.sha512Hex(data.password))
-                    .set("user_creation_time", Timestamp.now())
-                    .set("user_email", data.email)
+                    .set("username", data.username)
+                    .set("password", DigestUtils.sha512Hex(data.password))
+                    .set("creation_time", Timestamp.now())
+                    .set("email", data.email)
+                    .set("name", data.name)
+                    .set("phone_number", data.phoneNumber)
+                    .set("public_profile", data.publicProfile)
+                    .set("occupation", data.occupation)
+                    .set("work_place", data.workPlace)
+                    .set("address", data.address)
+                    .set("postal_code", data.postalCode)
+                    .set("nif", data.nif)
+                    .set("role", data.role)
                     .build();
             txn.add(user);
             LOG.info("User registered" + data.username);
             txn.commit();
-            return Response.ok("{}").build();
+            return Response.ok("User registered").build();
         } finally {
             if (txn.isActive()) {
                 txn.rollback();

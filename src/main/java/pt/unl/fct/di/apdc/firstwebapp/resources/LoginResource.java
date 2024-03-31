@@ -1,5 +1,6 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
@@ -9,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -17,6 +19,7 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
+import pt.unl.fct.di.apdc.firstwebapp.authentication.SignatureUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.AuthToken;
 import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
 
@@ -30,6 +33,8 @@ public class LoginResource {
 
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind("User");
+
+    private static final String key = "dhsjfhndkjvnjdsdjhfkjdsjfjhdskjhfkjsdhfhdkjhkfajkdkajfhdkmc";
 
     public LoginResource() {}
 
@@ -45,19 +50,36 @@ public class LoginResource {
 
         if(user != null) {
             String hashedPWD = (String) user.getString("user_password");
+            String role = user.getString("role");
 
             if(hashedPWD.equals((DigestUtils.sha512Hex(data.password)))){
                 user = Entity.newBuilder(userKey)
                         .set("user_name", data.username)
                         .set("user_password", DigestUtils.sha512Hex(data.password))
-                        .set("user_creation_time", Timestamp.now())
+                        .set("user_last_login_time", Timestamp.now())
                         .set("user_email", data.email)
                         .build();
 
                 datastore.put(user);
 
-                AuthToken at = new AuthToken(data.username);
-                return Response.ok(g.toJson(at)).build();
+                String id = UUID.randomUUID().toString();
+                long currentTime = System.currentTimeMillis();
+                String fields = data.username+"."+ id +"."+role+"."+currentTime+"."+1000*60*60*2;
+
+                String signature = SignatureUtils.calculateHMac(key, fields);
+
+                if(signature == null) {
+                    return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error while signing token. See logs.").build();
+                }
+
+                String value =  fields + "." + signature;
+                NewCookie cookie = new NewCookie("session::apdc", value, "/", null, "comment", 1000*60*60*2, false, true);
+
+
+
+                //AuthToken at = new AuthToken(data.username, role);
+                return Response.ok().cookie(cookie).build();
+                //return Response.ok(g.toJson(at)).build();
             }
 
 
@@ -66,12 +88,10 @@ public class LoginResource {
     }
 
     @GET
-    @Path("/{username}")
-    public Response checkUsernameAvailable(@PathParam("username") String username) {
-        if(username.equals("davide")) {
-            return Response.ok().entity(g.toJson(false)).build();
-        } else {
-            return Response.ok().entity(g.toJson(true)).build();
-        }
+    @Path("/user")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getLoginTime(LoginData data) {
+        AuthToken at = new AuthToken(data.username, "user");
+        return Response.ok(g.toJson(at)).build();
     }
 }
