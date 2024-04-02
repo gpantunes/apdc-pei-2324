@@ -3,6 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
     <title>My First Web App</title>
+    <script src="app.js" defer></script>
   </head>
 
   <body>
@@ -19,6 +20,26 @@
         <td><a href='/rest/utils/time'>What time is it?</a></td><td>(see server time)</td>
       </tr>
     </table>
+
+
+    <form id="loginForm">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div>
+        <button type="button" id="loginButton">Login</button>
+      </div>
+      <div>
+      <button type="button" id="registerButton">Register</button>
+      </div>
+    </form>
+
+
   </body>
   <footer>
   	Copyright: FCT NOVA, APC-PEI  2023/2024

@@ -8,7 +8,7 @@ public class RegisterData {
     public String phoneNumber;
     public String password;
     public String confirmation;
-    public boolean publicProfile;
+    public Boolean publicProfile;
     public String occupation;
     public String workPlace;
     public String address;
@@ -19,8 +19,8 @@ public class RegisterData {
 
     public RegisterData(){}
 
-    public RegisterData(String username, String password, String email, String name, String phoneNumber, boolean publicProfile,
-                        String occupation, String workPlace, String address, String postalCode, int nif){
+    public RegisterData(String username, String password, String email, String name, String phoneNumber, Boolean publicProfile,
+                        String occupation, String workPlace, String address, String postalCode, int nif, String role){
         this.username = username;
         this.password = password;
         this.email = email;
@@ -32,7 +32,7 @@ public class RegisterData {
         this.address = address;
         this.postalCode = postalCode;
         this.nif = nif;
-        this.role = "user";
+        this.role = role;
     }
 
     public boolean validRegistration(){

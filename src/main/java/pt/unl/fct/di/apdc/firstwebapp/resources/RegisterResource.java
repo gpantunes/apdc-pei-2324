@@ -96,38 +96,39 @@ public class RegisterResource {
     public Response doRegistrationV3(RegisterData data) {
         LOG.fine("Attempt to register user:" + data.username);
 
-        if( ! data.validRegistration()) {
+        if(!data.validRegistration()) {
             return Response.status(Status. BAD_REQUEST).entity("Missing or wrong parameter.").build();
         }
-
 
         Transaction txn = datastore.newTransaction();
         try {
             Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
-            Entity user = txn .get(userKey);
+            Entity user = txn.get(userKey);
             if( user != null) {
                 txn.rollback();
-                return Response.status(Status.BAD_REQUEST).entity("User already exists.").build(); } else {
+                return Response.status(Status.BAD_REQUEST).entity("User already exists.").build(); }
+            else {
+                user = Entity.newBuilder(userKey)
+                        .set("username", data.username)
+                        .set("password", DigestUtils.sha512Hex(data.password))
+                        .set("creation_time", Timestamp.now())
+                        .set("email", data.email)
+                        .set("name", data.name)
+                        .set("phone_number", data.phoneNumber)
+                        .set("public_profile", data.publicProfile)
+                        .set("occupation", data.occupation)
+                        .set("work_place", data.workPlace)
+                        .set("address", data.address)
+                        .set("postal_code", data.postalCode)
+                        .set("nif", data.nif)
+                        .set("role", "user")
+                        .build();
+
+                txn.add(user);
+                LOG.info("User registered" + data.username);
+                txn.commit();
+                return Response.ok("User registered").build();
             }
-            user = Entity.newBuilder(userKey)
-                    .set("username", data.username)
-                    .set("password", DigestUtils.sha512Hex(data.password))
-                    .set("creation_time", Timestamp.now())
-                    .set("email", data.email)
-                    .set("name", data.name)
-                    .set("phone_number", data.phoneNumber)
-                    .set("public_profile", data.publicProfile)
-                    .set("occupation", data.occupation)
-                    .set("work_place", data.workPlace)
-                    .set("address", data.address)
-                    .set("postal_code", data.postalCode)
-                    .set("nif", data.nif)
-                    .set("role", data.role)
-                    .build();
-            txn.add(user);
-            LOG.info("User registered" + data.username);
-            txn.commit();
-            return Response.ok("User registered").build();
         } finally {
             if (txn.isActive()) {
                 txn.rollback();

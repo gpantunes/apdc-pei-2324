@@ -34,7 +34,7 @@ public class LoginResource {
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind("User");
 
-    private static final String key = "dhsjfhndkjvnjdsdjhfkjdsjfjhdskjhfkjsdhfhdkjhkfajkdkajfhdkmc";
+    private static final String key = "dhsjfhndkjvnjdsd";
 
     public LoginResource() {}
 
@@ -49,15 +49,14 @@ public class LoginResource {
         Entity user = datastore.get(userKey);
 
         if(user != null) {
-            String hashedPWD = (String) user.getString("user_password");
+            String hashedPWD = user.getString("password");
             String role = user.getString("role");
 
             if(hashedPWD.equals((DigestUtils.sha512Hex(data.password)))){
                 user = Entity.newBuilder(userKey)
-                        .set("user_name", data.username)
-                        .set("user_password", DigestUtils.sha512Hex(data.password))
-                        .set("user_last_login_time", Timestamp.now())
-                        .set("user_email", data.email)
+                        .set("username", data.username)
+                        .set("password", DigestUtils.sha512Hex(data.password))
+                        .set("last_login_time", Timestamp.now())
                         .build();
 
                 datastore.put(user);
@@ -76,13 +75,11 @@ public class LoginResource {
                 NewCookie cookie = new NewCookie("session::apdc", value, "/", null, "comment", 1000*60*60*2, false, true);
 
 
+                return Response.ok().cookie(cookie).build();
 
                 //AuthToken at = new AuthToken(data.username, role);
-                return Response.ok().cookie(cookie).build();
                 //return Response.ok(g.toJson(at)).build();
             }
-
-
         }
         return Response.status(Status.FORBIDDEN).entity("Incorrect username or password.").build();
     }

@@ -56,6 +56,8 @@ public class RoleChangeResource {
             datastore.put(user);
 
             LOG.info("Role changed for user " + data.usernameToChange);
+        }else{
+            LOG.info("You don't have the necessary permission.");
         }
 
         return Response.ok().build();
