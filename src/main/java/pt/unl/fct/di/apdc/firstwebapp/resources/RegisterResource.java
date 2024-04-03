@@ -1,6 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import java.util.logging.Logger;
+import java.util.Objects;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUtils;
+import com.google.auto.value.extension.serializable.serializer.impl.IdentitySerializerFactory;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
@@ -37,6 +39,9 @@ public class RegisterResource {
 
     //usado para manipular objetos json!
     private final Gson g = new Gson();
+
+    //role default
+    private static final String DEFAULT_ROLE = "user";
 
     public RegisterResource() {
     } //Nothing to be done here
@@ -112,16 +117,16 @@ public class RegisterResource {
                         .set("username", data.username)
                         .set("password", DigestUtils.sha512Hex(data.password))
                         .set("creation_time", Timestamp.now())
-                        .set("email", data.email)
-                        .set("name", data.name)
-                        .set("phone_number", data.phoneNumber)
-                        .set("public_profile", data.publicProfile)
-                        .set("occupation", data.occupation)
-                        .set("work_place", data.workPlace)
-                        .set("address", data.address)
-                        .set("postal_code", data.postalCode)
-                        .set("nif", data.nif)
-                        .set("role", "user")
+                        .set("email", Objects.requireNonNullElse(data.email, ""))
+                        .set("name", Objects.requireNonNullElse(data.name, ""))
+                        .set("phone_number", Objects.requireNonNullElse(data.phoneNumber, ""))
+                        .set("public_profile", Objects.requireNonNullElse(data.publicProfile, false))
+                        .set("occupation", Objects.requireNonNullElse(data.occupation, ""))
+                        .set("work_place", Objects.requireNonNullElse(data.workPlace, ""))
+                        .set("address", Objects.requireNonNullElse(data.address, ""))
+                        .set("postal_code", Objects.requireNonNullElse(data.postalCode, ""))
+                        .set("nif", Objects.requireNonNullElse(data.nif, 999999999))
+                        .set("role", DEFAULT_ROLE)
                         .build();
 
                 txn.add(user);
@@ -135,5 +140,6 @@ public class RegisterResource {
             }
         }
     }
+
 
 }

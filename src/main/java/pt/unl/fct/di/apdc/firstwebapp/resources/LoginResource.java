@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -48,18 +47,13 @@ public class LoginResource {
         Key userKey = userKeyFactory.newKey(data.username);
         Entity user = datastore.get(userKey);
 
+        LOG.info(user.getString("role") + " " + user.getString("username"));
+
         if(user != null) {
             String hashedPWD = user.getString("password");
             String role = user.getString("role");
 
             if(hashedPWD.equals((DigestUtils.sha512Hex(data.password)))){
-                user = Entity.newBuilder(userKey)
-                        .set("username", data.username)
-                        .set("password", DigestUtils.sha512Hex(data.password))
-                        .set("last_login_time", Timestamp.now())
-                        .build();
-
-                datastore.put(user);
 
                 String id = UUID.randomUUID().toString();
                 long currentTime = System.currentTimeMillis();
@@ -72,8 +66,7 @@ public class LoginResource {
                 }
 
                 String value =  fields + "." + signature;
-                NewCookie cookie = new NewCookie("session::apdc", value, "/", null, "comment", 1000*60*60*2, false, true);
-
+                NewCookie cookie = new NewCookie("session::apdc", value, "/", null, "comment", 1000*60*60*2, false, false);
 
                 return Response.ok().cookie(cookie).build();
 
@@ -81,7 +74,7 @@ public class LoginResource {
                 //return Response.ok(g.toJson(at)).build();
             }
         }
-        return Response.status(Status.FORBIDDEN).entity("Incorrect username or password.").build();
+        return Response.status(Status.BAD_REQUEST).entity("Incorrect username or password.").build();
     }
 
     @GET

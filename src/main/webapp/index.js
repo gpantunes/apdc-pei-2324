@@ -1,28 +1,28 @@
-function login() {
+//login button
+document.getElementById("loginButton").addEventListener("click", function() {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    let loginData = {
-        username: username,
-        password: password
-    };
-
-    console.log(loginData.username + " " + loginData.password);
+    console.log(username + " " + password);
 
     fetch('/rest/login/v1', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json; charset=UTF-8'
         },
-        body: JSON.stringify(loginData)
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
     })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
-                console.log("não ok")
             }
             // Handle successful login response
             console.log('Login successful');
+            console.log(response);
+            goToMenu();
             // Redirect to another page or perform other actions as needed
         })
         .catch(error => {
@@ -30,11 +30,11 @@ function login() {
             console.error('Error during login:', error);
             // Display error message to the user or perform other actions as needed
         });
-}
+});
 
 
-
-document.getElementById("loginButton").addEventListener("click", function() {
+//register v3 button
+document.getElementById("registerButton").addEventListener("click", function() {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
@@ -57,6 +57,7 @@ document.getElementById("loginButton").addEventListener("click", function() {
             }
             // Handle successful login response
             console.log('Registration successful');
+            console.log(response);
             // Redirect to another page or perform other actions as needed
         })
         .catch(error => {
@@ -67,35 +68,29 @@ document.getElementById("loginButton").addEventListener("click", function() {
 });
 
 
+//print token button
+document.getElementById("printTokenButton").addEventListener("click", function() {
 
-document.getElementById("registerButton").addEventListener("click", function() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    console.log("tentativa de print");
 
-
-    console.log(username + " " + password);
-
-    fetch('/rest/login/v1', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
+    fetch('/rest/print_token/v1', {
+        method: 'POST'
     })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             // Handle successful login response
-            console.log('Login successful');
-            // Redirect to another page or perform other actions as needed
+            console.log(response.text());
         })
         .catch(error => {
             // Handle login error
-            console.error('Error during login:', error);
+            console.error('Error during print:', error);
             // Display error message to the user or perform other actions as needed
         });
 });
+
+
+function goToMenu(){
+    window.location.href = "menu.html";
+}
