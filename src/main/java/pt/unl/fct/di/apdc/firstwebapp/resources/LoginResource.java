@@ -53,7 +53,7 @@ public class LoginResource {
             String hashedPWD = user.getString("password");
             String role = user.getString("role");
 
-            if(hashedPWD.equals((DigestUtils.sha512Hex(data.password)))){
+            if(hashedPWD.equals((DigestUtils.sha512Hex(data.password))) && user.getBoolean("activation_state")){
 
                 String id = UUID.randomUUID().toString();
                 long currentTime = System.currentTimeMillis();

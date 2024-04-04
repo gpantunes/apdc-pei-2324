@@ -41,7 +41,8 @@ public class RegisterResource {
     private final Gson g = new Gson();
 
     //role default
-    private static final String DEFAULT_ROLE = "user";
+    private static final String DEFAULT_ROLE = "USER";
+    private static final boolean DEFAULT_ACTIVATION_STATE = false;
 
     public RegisterResource() {
     } //Nothing to be done here
@@ -127,6 +128,7 @@ public class RegisterResource {
                         .set("postal_code", Objects.requireNonNullElse(data.postalCode, ""))
                         .set("nif", Objects.requireNonNullElse(data.nif, 999999999))
                         .set("role", DEFAULT_ROLE)
+                        .set("activation_state", DEFAULT_ACTIVATION_STATE)
                         .build();
 
                 txn.add(user);
