@@ -23,7 +23,6 @@ document.getElementById("changePasswordButton").addEventListener("click", functi
             }else{
                 console.log(response.text());
                 console.log("password change successful")
-                goToMenu();
             }
         })
         .catch(error => {
@@ -34,6 +33,6 @@ document.getElementById("changePasswordButton").addEventListener("click", functi
 });
 
 
-function goToMenu(){
-    window.location.href = "menu.html";
-}
+document.getElementById("changePageButton").addEventListener("click", function() {
+    window.location.href = "../menu.html";
+});

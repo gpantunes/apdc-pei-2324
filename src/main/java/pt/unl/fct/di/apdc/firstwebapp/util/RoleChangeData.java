@@ -11,6 +11,4 @@ public class RoleChangeData {
         this.usernameToChange = usernameToChange;
         this.role = role;
     }
-
-
 }

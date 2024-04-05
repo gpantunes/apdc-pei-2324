@@ -45,7 +45,7 @@ public class RoleChangeResource {
             Entity user = txn.get(userKey);
 
             if (params[2].equals("USER") || params[2].equals("GBO")) {
-                return Response.ok().entity("Não tem as permissões necessárias.").build();
+                return Response.ok().status(Status.FORBIDDEN).build();
             } else if (params[2].equals("GA")) {
 
                 String userRole = user.getString("role");
@@ -54,7 +54,7 @@ public class RoleChangeResource {
                         return Response.ok().entity("Role alterado com sucesso").build();
                     else return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error while changing role.").build();
                 } else {
-                    return Response.ok().entity("Não tem as permissões necessárias.").build();
+                    return Response.status(Status.FORBIDDEN).build();
                 }
 
             }else if(params[2].equals("SU")){

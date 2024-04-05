@@ -59,7 +59,7 @@ document.getElementById("roleChangeButton").addEventListener("click", function()
 
 
 //print token button
-document.getElementById("changeStateButton").addEventListener("click", function() {
+document.getElementById("stateChangeButton").addEventListener("click", function() {
 
     console.log("tentativa de mudar estado");
 
@@ -107,10 +107,15 @@ document.getElementById("printTokenButton").addEventListener("click", function()
 
 //move to the password change page
 document.getElementById("passwordChangeButton").addEventListener("click", function() {
-    window.location.href = "passwordChange.html";
+    window.location.href = "PasswordChange/passwordChange.html";
+});
+
+//move to the state change page
+document.getElementById("stateChangeButton").addEventListener("click", function() {
+    window.location.href = "StateChange/stateChange.html";
 });
 
 
 function goToIndex(){
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }

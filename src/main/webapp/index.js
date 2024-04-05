@@ -92,5 +92,5 @@ document.getElementById("printTokenButton").addEventListener("click", function()
 
 
 function goToMenu(){
-    window.location.href = "menu.html";
+    window.location.href = "web-pages/menu.html";
 }
