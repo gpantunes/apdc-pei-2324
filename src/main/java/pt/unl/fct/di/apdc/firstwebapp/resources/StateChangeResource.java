@@ -1,8 +1,6 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import com.google.cloud.datastore.*;
-import com.google.gson.Gson;
-import pt.unl.fct.di.apdc.firstwebapp.util.RoleChangeData;
 import pt.unl.fct.di.apdc.firstwebapp.util.StateChangeData;
 
 import javax.ws.rs.*;
@@ -32,7 +30,7 @@ public class StateChangeResource {
     @POST
     @Path("/v1")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response doRoleChange(@CookieParam("session::apdc") Cookie sessionCookie, StateChangeData data) {
+    public Response doStateChange(@CookieParam("session::apdc") Cookie sessionCookie, StateChangeData data) {
 
         String[] params = sessionCookie.getValue().split("\\.");
 
@@ -85,7 +83,7 @@ public class StateChangeResource {
     private boolean changeState(StateChangeData data, Entity user, Transaction txn){
 
         Entity.Builder tempUser = Entity.newBuilder(user);
-        tempUser.set("public_profile", data.state);
+        tempUser.set("activation_state", data.state);
 
         Entity update = tempUser.build();
         txn.update(update);

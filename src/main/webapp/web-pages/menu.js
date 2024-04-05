@@ -115,6 +115,11 @@ document.getElementById("stateChangeButton").addEventListener("click", function(
     window.location.href = "StateChange/stateChange.html";
 });
 
+//move to the user removal page
+document.getElementById("deleteUserButton").addEventListener("click", function() {
+    window.location.href = "UserRemoval/userRemoval.html";
+});
+
 
 function goToIndex(){
     window.location.href = "../index.html";
