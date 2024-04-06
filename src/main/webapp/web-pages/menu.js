@@ -81,6 +81,30 @@ document.getElementById("stateChangeButton").addEventListener("click", function(
 });
 
 
+//print token button
+document.getElementById("listUsersButton").addEventListener("click", function() {
+
+    console.log("tentativa de listar users");
+
+    fetch('/rest/list_users/v1', {
+        method: 'POST'
+    })
+        .then(response => {
+            if (!response.ok) {
+                console.log(response.json());
+                throw new Error('Network response was not ok');
+            }
+            // Handle successful login response
+            console.log(response.json());
+        })
+        .catch(error => {
+            // Handle login error
+            console.error('Error during list:', error);
+            // Display error message to the user or perform other actions as needed
+        });
+});
+
+
 
 //print token button
 document.getElementById("printTokenButton").addEventListener("click", function() {

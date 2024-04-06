@@ -1,23 +1,17 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import java.util.Objects;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUtils;
-import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
-import pt.unl.fct.di.apdc.firstwebapp.authentication.SignatureUtils;
-import pt.unl.fct.di.apdc.firstwebapp.util.AuthToken;
 import pt.unl.fct.di.apdc.firstwebapp.util.PasswordChangeData;
 
 
@@ -29,9 +23,6 @@ public class PasswordChangeResource {
     private final Gson g = new Gson();
 
     private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    private final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind("User");
-
-    private static final String key = "dhsjfhndkjvnjdsd";
 
 
     @POST
