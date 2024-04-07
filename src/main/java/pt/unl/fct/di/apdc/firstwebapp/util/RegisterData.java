@@ -13,14 +13,14 @@ public class RegisterData {
     public String workPlace;
     public String address;
     public String postalCode;
-    public int nif;
+    public String nif;
     public String role;
 
 
     public RegisterData(){}
 
     public RegisterData(String username, String password, String email, String name, String phoneNumber, Boolean publicProfile,
-                        String occupation, String workPlace, String address, String postalCode, int nif, String role){
+                        String occupation, String workPlace, String address, String postalCode, String nif, String role){
         this.username = username;
         this.password = password;
         this.email = email;

@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Response.Status;
 
-@Path("/state_change")
+@Path("/attribute_change")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class AttributeChangeResource {
 
@@ -105,6 +105,7 @@ public class AttributeChangeResource {
 
 
     private boolean changeAttribute(AttributeChangeData data, Entity user, Transaction txn){
+
 
         Entity.Builder tempUser = Entity.newBuilder(user);
         tempUser.set(data.attributeToChange, data.attributeValue);

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attribute change page</title>
+    <script src="attributeChange.js" defer></script>
+</head>
+<body>
+<form id="roleChangeForm">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+        <label for="attributeToChange">Attribute Name:</label>
+        <input type="text" id="attributeToChange" name="attributeToChange" required>
+    </div>
+    <div>
+        <label for="attributeValue">New Value:</label>
+        <input type="text" id="attributeValue" name="attributeValue" required>
+    </div>
+    <div>
+        <button type="button" id="stateChangeButton">Change Attribute</button>
+    </div>
+</form>
+
+<div>
+    <button type="button" id="changePageButton">Return to Menu</button>
+</div>
+</body>
+</html>

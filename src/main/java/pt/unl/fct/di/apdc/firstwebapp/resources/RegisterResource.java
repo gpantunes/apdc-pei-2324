@@ -126,7 +126,7 @@ public class RegisterResource {
                         .set("work_place", Objects.requireNonNullElse(data.workPlace, ""))
                         .set("address", Objects.requireNonNullElse(data.address, ""))
                         .set("postal_code", Objects.requireNonNullElse(data.postalCode, ""))
-                        .set("nif", Objects.requireNonNullElse(data.nif, 999999999))
+                        .set("nif", Objects.requireNonNullElse(data.nif, "999999999"))
                         .set("role", DEFAULT_ROLE)
                         .set("activation_state", DEFAULT_ACTIVATION_STATE)
                         .build();
