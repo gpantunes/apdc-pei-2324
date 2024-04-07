@@ -1,0 +1,60 @@
+/* Reset default browser styles */
+html, body, div, form, input, button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* Center content horizontally */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+}
+
+/* Main container */
+.container {
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+button {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Form input fields */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Label */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Spacing between elements */
+div:not(.container) {
+    margin-bottom: 20px;
+}

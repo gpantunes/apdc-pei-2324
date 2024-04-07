@@ -57,7 +57,7 @@ public class LoginResource {
 
                 String id = UUID.randomUUID().toString();
                 long currentTime = System.currentTimeMillis();
-                String fields = data.username+"."+ id +"."+role+"."+currentTime+"."+1000*60*60*2;
+                String fields = data.username+"."+ id +"."+role+"."+currentTime+"."+0*601000*6*2;
 
                 String signature = SignatureUtils.calculateHMac(key, fields);
 

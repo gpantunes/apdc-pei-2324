@@ -52,6 +52,9 @@ public class ListUsersResource {
 
     private Filter generateRoleFilter(String loggedInUserRole) {
         Filter roleFilter = null;
+        Filter profileFilter;
+        Filter activationFilter;
+
 
         // If the logged-in user is GA, allow listing GA, GBO, and USER users
         if ("GA".equals(loggedInUserRole)) {
@@ -64,8 +67,10 @@ public class ListUsersResource {
         // If the logged-in user is USER, allow listing only USER users
         else if ("USER".equals(loggedInUserRole)) {
             roleFilter = StructuredQuery.PropertyFilter.eq("role", "USER");
+            profileFilter = StructuredQuery.PropertyFilter.eq("public_profile", true);
+            activationFilter = StructuredQuery.PropertyFilter.eq("activation_state", true);
+            roleFilter = StructuredQuery.CompositeFilter.and(roleFilter, profileFilter, activationFilter);
         }
-        // For SU users, no filtering is needed, so leave roleFilter as null
 
         return roleFilter;
     }
