@@ -144,6 +144,10 @@ document.getElementById("deleteUserButton").addEventListener("click", function()
     window.location.href = "UserRemoval/userRemoval.html";
 });
 
+document.getElementById("deleteUserButton").addEventListener("click", function() {
+    window.location.href = "AttributeChange/attributeChange.html";
+});
+
 
 function goToIndex(){
     window.location.href = "../index.html";
